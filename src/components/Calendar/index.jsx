@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-// import "./styles.css";
+import styles from "./styles.module.css";
 
-function Calendar() {
+function Calendar({ getData }) {
   const [months, setMonths] = useState([
     "January",
     "February",
@@ -22,13 +22,18 @@ function Calendar() {
   const [previousDays, setPreviousDays] = useState();
   const [nextDays, setNextDays] = useState();
   const [currentDays, setCurrentDays] = useState();
+  const [rerender, setRerender] = useState();
 
   function nextMonth() {
     date.setMonth(date.getMonth() + 1);
+    setMonth(months[date.getMonth()]);
+    setRerender(new Date());
   }
 
   function previousMonth() {
     date.setMonth(date.getMonth() - 1);
+    setMonth(months[date.getMonth()]);
+    setRerender(new Date());
   }
 
   useEffect(() => {
@@ -55,26 +60,23 @@ function Calendar() {
       aux.push(prevLastDay - x + 1);
     }
     setPreviousDays(aux);
-
     setNextDays(Array.from({ length: 7 - lastDayIndex - 1 }, (v, i) => i + 1));
-
-    // aux = [];
-    // for (let i = 1; i <= lastDay; i++) {
-    //   aux.push(i);
-    // }
     setCurrentDays(Array.from({ length: lastDay }, (v, i) => i + 1));
-  }, [date]); //es-lint-disable-line
+  }, [rerender]); //eslint-disable-line
 
   return nextDays ? (
-    <div className="container">
-      <div className="calendar">
-        <div className="month">
-          <div className="date">
+    <div className={styles.container}>
+      <div className={styles.calendar}>
+        <div className={styles.month}>
+          <div className={styles.date}>
             <h1>{month}</h1>
-            <p>{new Date().toDateString()}</p>
+          </div>
+          <div className={styles.monthActionsDiv}>
+            <button onClick={previousMonth}>Prev</button>
+            <button onClick={nextMonth}>Next</button>
           </div>
         </div>
-        <div className="weekdays">
+        <div className={styles.weekdays}>
           <div>Sun</div>
           <div>Mon</div>
           <div>Tue</div>
@@ -83,15 +85,37 @@ function Calendar() {
           <div>Fri</div>
           <div>Sat</div>
         </div>
-        <div className="days">
+        <div className={styles.days}>
           {previousDays.map((day) => {
-            return <div>{day}</div>;
+            return (
+              <div
+                className={styles.prev}
+                onClick={() =>
+                  getData({ day: day, month: months[date.getMonth() - 1] })
+                }
+              >
+                {day}
+              </div>
+            );
           })}
           {currentDays.map((day) => {
-            return <div>{day}</div>;
+            return (
+              <div onClick={() => getData({ day: day, month: month })}>
+                {day}
+              </div>
+            );
           })}
           {nextDays.map((day) => {
-            return <div>{day}</div>;
+            return (
+              <div
+                className={styles.next}
+                onClick={() =>
+                  getData({ day: day, month: months[date.getMonth() + 1] })
+                }
+              >
+                {day}
+              </div>
+            );
           })}
         </div>
       </div>

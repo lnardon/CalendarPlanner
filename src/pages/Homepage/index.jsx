@@ -1,10 +1,10 @@
 import React from "react";
 
-import "./styles.css";
+import style from "./styles.css";
 import Calendar from "../../components/Calendar";
 
 function Homepage() {
-  return <Calendar />;
+  return <Calendar getData={(value) => console.log(value)} />;
 }
 
 export default Homepage;
