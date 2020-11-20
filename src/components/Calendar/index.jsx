@@ -99,8 +99,16 @@ function Calendar({ getData }) {
             );
           })}
           {currentDays.map((day) => {
+            let today = new Date();
             return (
-              <div onClick={() => getData({ day: day, month: month })}>
+              <div
+                onClick={() => getData({ day: day, month: month })}
+                className={
+                  day === today.getDate() && month === months[today.getMonth()]
+                    ? styles.currentDay
+                    : ""
+                }
+              >
                 {day}
               </div>
             );
