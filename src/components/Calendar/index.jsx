@@ -91,7 +91,12 @@ function Calendar({ getData }) {
               <div
                 className={styles.prev}
                 onClick={() =>
-                  getData({ day: day, month: months[date.getMonth() - 1] })
+                  getData({
+                    day: day,
+                    month: months[date.getMonth() - 1]
+                      ? months[date.getMonth() - 1]
+                      : months[months.length - 1],
+                  })
                 }
               >
                 {day}
@@ -118,7 +123,12 @@ function Calendar({ getData }) {
               <div
                 className={styles.next}
                 onClick={() =>
-                  getData({ day: day, month: months[date.getMonth() + 1] })
+                  getData({
+                    day: day,
+                    month: months[date.getMonth() + 1]
+                      ? months[date.getMonth() + 1]
+                      : months[0],
+                  })
                 }
               >
                 {day}
