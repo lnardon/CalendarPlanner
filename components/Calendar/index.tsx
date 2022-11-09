@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import styles from "./styles.module.css";
 
-function Calendar({ getData }) {
+function Calendar({ getData }: { getData: (data: any) => void }) {
   const [months, setMonths] = useState([
     "January",
     "February",
@@ -19,10 +19,10 @@ function Calendar({ getData }) {
   ]);
   const [date, setDate] = useState(new Date());
   const [month, setMonth] = useState(months[date.getMonth()]);
-  const [previousDays, setPreviousDays] = useState();
-  const [nextDays, setNextDays] = useState();
-  const [currentDays, setCurrentDays] = useState();
-  const [rerender, setRerender] = useState();
+  const [previousDays, setPreviousDays] = useState<any>();
+  const [nextDays, setNextDays] = useState<any>();
+  const [currentDays, setCurrentDays] = useState<any>();
+  const [rerender, setRerender] = useState<any>();
 
   function nextMonth() {
     date.setMonth(date.getMonth() + 1);
@@ -86,7 +86,7 @@ function Calendar({ getData }) {
           <div>Sat</div>
         </div>
         <div className={styles.days}>
-          {previousDays.map((day) => {
+          {previousDays.map((day: any) => {
             return (
               <div
                 className={styles.prev}
@@ -103,7 +103,7 @@ function Calendar({ getData }) {
               </div>
             );
           })}
-          {currentDays.map((day) => {
+          {currentDays.map((day: any) => {
             let today = new Date();
             return (
               <div
@@ -118,7 +118,7 @@ function Calendar({ getData }) {
               </div>
             );
           })}
-          {nextDays.map((day) => {
+          {nextDays.map((day: any) => {
             return (
               <div
                 className={styles.next}
