@@ -89,6 +89,7 @@ function Calendar({ getData }: { getData: (data: any) => void }) {
           {previousDays.map((day: any) => {
             return (
               <div
+                key={day}
                 className={styles.prev}
                 onClick={() =>
                   getData({
@@ -107,6 +108,7 @@ function Calendar({ getData }: { getData: (data: any) => void }) {
             let today = new Date();
             return (
               <div
+                key={day}
                 onClick={() => getData({ day: day, month: month })}
                 className={
                   day === today.getDate() && month === months[today.getMonth()]
@@ -121,6 +123,7 @@ function Calendar({ getData }: { getData: (data: any) => void }) {
           {nextDays.map((day: any) => {
             return (
               <div
+                key={day}
                 className={styles.next}
                 onClick={() =>
                   getData({
