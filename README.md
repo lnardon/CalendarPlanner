@@ -1,3 +1,8 @@
-# Calendar Planner
+# [Calendar Planner](https://calendar-scheduler.vercel.app/)
 
-Coming soon
+
+### What was used
+- Next.js
+- Typescipt
+- CSS
+- Google Calendar API
