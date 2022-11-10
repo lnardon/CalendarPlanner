@@ -1,9 +1,36 @@
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { app } from "../firebase";
 
+import styles from "../styles/Home.module.css";
 import Calendar from "../components/Calendar";
 
 export default function Home() {
+  function loginWithGoogle() {
+    const provider = new GoogleAuthProvider();
+
+    const auth = getAuth(app);
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential: any = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -14,6 +41,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <Calendar getData={(e) => console.log(e)} />
+        <button onClick={loginWithGoogle}>LOGIN</button>
       </main>
 
       <footer className={styles.footer}>
