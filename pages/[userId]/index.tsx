@@ -1,7 +1,6 @@
-import { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { database } from "../../firebase";
 import { onValue, ref, set } from "firebase/database";
 
@@ -15,8 +14,8 @@ export default function Home() {
 
   useEffect(() => {
     Promise.resolve(ref(database, "users/" + router.query.userId)).then((a) => {
-      setIsLoading(false);
       onValue(a, (snapshot) => {
+        setIsLoading(false);
         if (snapshot.size > 0) {
           const data = snapshot.val();
           setUsername(data?.username);
