@@ -33,7 +33,7 @@ export default function Home() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user.uid;
-      router.push(`/${user.uid}/profile`);
+      router.push(`/${uid}`);
     }
   });
 
@@ -49,7 +49,6 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <Calendar getData={(e) => console.log(e)} />
         <button onClick={loginWithGoogle}>LOGIN</button>
       </main>
 
