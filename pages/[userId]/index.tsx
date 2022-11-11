@@ -2,8 +2,7 @@ import { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { app, database } from "../../firebase";
+import { database } from "../../firebase";
 import { onValue, ref, set } from "firebase/database";
 
 import styles from "../../styles/Home.module.css";
@@ -11,15 +10,22 @@ import Calendar from "../../components/Calendar";
 
 export default function Home() {
   const [username, setUsername] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const availability = ref(database, "users/" + router.query.userId);
-    onValue(availability, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
+    Promise.resolve(ref(database, "users/" + router.query.userId)).then((a) => {
+      setIsLoading(false);
+      onValue(a, (snapshot) => {
+        if (snapshot.size > 0) {
+          const data = snapshot.val();
+          setUsername(data?.username);
+        } else {
+          if (!isLoading) router.push("/");
+        }
+      });
     });
-  }, []);
+  });
 
   function writeUserData() {
     set(ref(database, "users/" + router.query.userId), {
@@ -38,6 +44,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
+        <h2>{username}'s calendar</h2>
         <Calendar getData={(e) => console.log(e)} />
         <button onClick={writeUserData}>ADD</button>
       </main>
