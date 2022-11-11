@@ -1,12 +1,11 @@
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import {
-  getAuth,
   signInWithPopup,
   GoogleAuthProvider,
   onAuthStateChanged,
 } from "firebase/auth";
-import { app } from "../firebase";
+import { auth } from "../firebase";
 
 import styles from "../styles/Home.module.css";
 import Calendar from "../components/Calendar";
@@ -14,7 +13,6 @@ import Calendar from "../components/Calendar";
 export default function Home() {
   const router = useRouter();
   const provider = new GoogleAuthProvider();
-  const auth = getAuth(app);
   function loginWithGoogle() {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -30,12 +28,12 @@ export default function Home() {
       });
   }
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const uid = user.uid;
-      router.push(`/${uid}`);
-    }
-  });
+  // onAuthStateChanged(auth, (user) => {
+  //   if (user) {
+  //     const uid = user.uid;
+  //     router.push(`/${uid}`);
+  //   }
+  // });
 
   return (
     <div className={styles.container}>
