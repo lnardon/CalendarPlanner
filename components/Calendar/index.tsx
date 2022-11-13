@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 
 import styles from "./styles.module.css";
 
-function Calendar({ getData }: { getData: (data: any) => void }) {
+function Calendar({
+  getData,
+  isTimeSelectionOpen,
+}: {
+  getData: (data: any) => void;
+  isTimeSelectionOpen: boolean;
+}) {
   const [months, setMonths] = useState([
     "January",
     "February",
@@ -66,8 +72,20 @@ function Calendar({ getData }: { getData: (data: any) => void }) {
 
   return nextDays ? (
     <div className={styles.container}>
-      <div className={styles.calendar}>
-        <div className={styles.month}>
+      <div
+        className={styles.calendar}
+        style={{
+          borderRadius: isTimeSelectionOpen ? "2rem 0rem 0rem 2rem" : "2rem",
+        }}
+      >
+        <div
+          className={styles.month}
+          style={{
+            borderRadius: isTimeSelectionOpen
+              ? "2rem 0rem 0rem 2rem"
+              : "2rem 2rem 2rem 2rem",
+          }}
+        >
           <div className={styles.date}>
             <h1>{month}</h1>
           </div>

@@ -12,15 +12,12 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [isTimeSelectionOpen, setIsTimeSelectionOpen] = useState(false);
   const [isSchedulerInfoOpen, setSchedulerInfoOpen] = useState(false);
+  const [date, setDate] = useState<any>();
+  const [time, setTime] = useState<any>();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [description, setDescription] = useState("");
   const router = useRouter();
-
-  setTimeout(() => {
-    setIsTimeSelectionOpen(true);
-  }, 2000);
-
-  setTimeout(() => {
-    setSchedulerInfoOpen(true);
-  }, 5000);
 
   useEffect(() => {
     Promise.resolve(ref(database, "users/" + router.query.userId)).then((a) => {
@@ -44,6 +41,19 @@ export default function Home() {
     });
   }
 
+  function handleMeetingConfirmation() {
+    fetch("./api/schedule-meeting", {
+      method: "POST",
+      body: JSON.stringify({
+        date,
+        time,
+        name,
+        email,
+        description,
+      }),
+    });
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -55,19 +65,75 @@ export default function Home() {
       <main className={styles.main}>
         <h2>{username}&apos;s calendar</h2>
         <div className={styles.calendarContainer}>
-          <Calendar getData={(e) => console.log(e)} />
+          <Calendar
+            getData={(e) => {
+              setDate(e);
+              setIsTimeSelectionOpen(true);
+            }}
+            isTimeSelectionOpen={isTimeSelectionOpen}
+          />
           {isTimeSelectionOpen && (
-            <div className={styles.timeContainer}>
+            <div
+              className={styles.timeContainer}
+              style={{
+                borderRadius: isSchedulerInfoOpen
+                  ? "0rem"
+                  : "0rem 2rem 2rem 0rem",
+              }}
+            >
               <h2>Select time</h2>
+              <div>
+                <select
+                  name=""
+                  id=""
+                  onChange={(e) => {
+                    setTime(e.target.value);
+                    setSchedulerInfoOpen(true);
+                  }}
+                >
+                  <option value="10am">10A.M</option>
+                  <option value="12pm">12P.M</option>
+                  <option value="14pm">14P.M</option>
+                </select>
+              </div>
             </div>
           )}
           {isSchedulerInfoOpen && (
             <div className={styles.schedulerInfoContainer}>
               <h2>Add your personal info</h2>
+              <div>
+                <h5>Your name:</h5>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div>
+                <h5>Your google email:</h5>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div>
+                <h5>Meeting's Description</h5>
+                <input
+                  type="text"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+              <button
+                onClick={handleMeetingConfirmation}
+                className={styles.confirmButton}
+              >
+                Confirm meeting
+              </button>
             </div>
           )}
         </div>
-        {/* <button onClick={writeUserData}>ADD</button> */}
       </main>
 
       <footer className={styles.footer}>

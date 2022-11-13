@@ -17,14 +17,31 @@
   transition: all 0.7s ease-in-out;
 }
 
+.styles_calendar {
+  border-radius: 0rem;
+}
+
 .timeContainer {
-  background-color: red;
-  animation: appearLeft 0.3s cubic-bezier(0.2, 0, 0.175, 1);
+  padding: 1rem;
+  background-color: #313131;
+  animation: appearLeft 0.5s cubic-bezier(0.2, 0, 0.175, 1);
+  border-radius: 0rem 2rem 2rem 0rem;
 }
 
 .schedulerInfoContainer {
-  background-color: orange;
-  animation: appearLeft 0.3s cubic-bezier(0.2, 0, 0.175, 1);
+  padding: 1rem;
+  background-color: #515151;
+  animation: appearLeft 0.5s cubic-bezier(0.2, 0, 0.175, 1);
+  border-radius: 0rem 2rem 2rem 0rem;
+}
+
+.confirmButton {
+  margin: 2rem 0rem;
+  padding: 0.5rem 1rem;
+  background-color: tomato;
+  border: none;
+  outline: none;
+  border-radius: 0.25rem;
 }
 
 @keyframes appearLeft {
