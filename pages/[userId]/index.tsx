@@ -118,7 +118,7 @@ export default function Home() {
                 />
               </div>
               <div>
-                <h5>Meeting's Description</h5>
+                <h5>Meeting&apos;s Description</h5>
                 <input
                   type="text"
                   value={description}
