@@ -4,13 +4,23 @@ import { useState, useEffect } from "react";
 import { database } from "../../firebase";
 import { onValue, ref, set } from "firebase/database";
 
-import styles from "../../styles/Home.module.css";
+import styles from "./styles.module.css";
 import Calendar from "../../components/Calendar";
 
 export default function Home() {
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isTimeSelectionOpen, setIsTimeSelectionOpen] = useState(false);
+  const [isSchedulerInfoOpen, setSchedulerInfoOpen] = useState(false);
   const router = useRouter();
+
+  setTimeout(() => {
+    setIsTimeSelectionOpen(true);
+  }, 2000);
+
+  setTimeout(() => {
+    setSchedulerInfoOpen(true);
+  }, 5000);
 
   useEffect(() => {
     Promise.resolve(ref(database, "users/" + router.query.userId)).then((a) => {
@@ -44,7 +54,19 @@ export default function Home() {
 
       <main className={styles.main}>
         <h2>{username}&apos;s calendar</h2>
-        <Calendar getData={(e) => console.log(e)} />
+        <div className={styles.calendarContainer}>
+          <Calendar getData={(e) => console.log(e)} />
+          {isTimeSelectionOpen && (
+            <div className={styles.timeContainer}>
+              <h2>Select time</h2>
+            </div>
+          )}
+          {isSchedulerInfoOpen && (
+            <div className={styles.schedulerInfoContainer}>
+              <h2>Add your personal info</h2>
+            </div>
+          )}
+        </div>
         {/* <button onClick={writeUserData}>ADD</button> */}
       </main>
 
