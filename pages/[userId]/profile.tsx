@@ -4,9 +4,14 @@ import { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 
 import styles from "./styles.module.css";
+import Calendar from "../../components/Calendar";
 
 export default function Home() {
   const [isUserProfile, setIsUserProfile] = useState(false);
+  const [isTimeSelectionOpen, setIsTimeSelectionOpen] = useState(false);
+  const [isSchedulerInfoOpen, setSchedulerInfoOpen] = useState(false);
+  const [date, setDate] = useState<any>();
+  const [time, setTime] = useState<any>();
   const router = useRouter();
 
   useEffect(() => {
@@ -24,10 +29,45 @@ export default function Home() {
       </Head>
       {isUserProfile ? (
         <main className={styles.main}>
-          <h1>USER PROFILE</h1>
+          <h1>Your calendar schedule</h1>
+          <div className={styles.calendarContainer}>
+            <Calendar
+              getData={(e) => {
+                setDate(e);
+                setIsTimeSelectionOpen(true);
+              }}
+              isTimeSelectionOpen={isTimeSelectionOpen}
+            />
+            {isTimeSelectionOpen && (
+              <div
+                className={styles.timeContainer}
+                style={{
+                  borderRadius: isSchedulerInfoOpen
+                    ? "0rem"
+                    : "0rem 2rem 2rem 0rem",
+                }}
+              >
+                <h2>Edit time availability</h2>
+                <div>
+                  <select
+                    name=""
+                    id=""
+                    onChange={(e) => {
+                      setTime(e.target.value);
+                      setSchedulerInfoOpen(true);
+                    }}
+                  >
+                    <option value="10am">10A.M</option>
+                    <option value="12pm">12P.M</option>
+                    <option value="14pm">14P.M</option>
+                  </select>
+                </div>
+              </div>
+            )}
+          </div>
         </main>
       ) : (
-        <h1>403</h1>
+        <h1>403 Forbidden page</h1>
       )}
 
       <footer className={styles.footer}>
