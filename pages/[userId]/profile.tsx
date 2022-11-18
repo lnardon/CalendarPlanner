@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import {} from "firebase/auth";
 import { auth } from "../../firebase";
 
 import styles from "./styles.module.css";
@@ -14,10 +15,23 @@ export default function Home() {
   const [time, setTime] = useState<any>();
   const router = useRouter();
 
+  function handleSignOut() {
+    auth
+      .signOut()
+      .then((e) => console.log(e))
+      .catch((e) => console.log(e));
+  }
+
   useEffect(() => {
-    if (auth?.currentUser?.uid === router.query.userId) {
+    if (
+      auth?.currentUser?.uid &&
+      auth?.currentUser?.uid === router.query.userId
+    ) {
       setIsUserProfile(true);
     }
+    console.log(
+      auth?.currentUser?.uid && auth?.currentUser?.uid === router.query.userId
+    );
   });
 
   return (
@@ -65,6 +79,7 @@ export default function Home() {
               </div>
             )}
           </div>
+          <button onClick={handleSignOut}>LOG OUT</button>
         </main>
       ) : (
         <h1>403 Forbidden page</h1>
