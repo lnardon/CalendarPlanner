@@ -24,14 +24,31 @@
 .timeContainer {
   padding: 1rem;
   background-color: #313131;
-  animation: appearLeft 0.5s cubic-bezier(0.2, 0, 0.175, 1);
+  animation: appearLeft 0.9s ease;
   border-radius: 0rem 2rem 2rem 0rem;
+}
+
+.timeslots {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 200px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.timeslot {
+  margin: 0.25rem 0rem;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  outline: none;
+  cursor: pointer;
+  border: 2px solid blue;
 }
 
 .schedulerInfoContainer {
   padding: 1rem;
   background-color: #515151;
-  animation: appearLeft 0.5s cubic-bezier(0.2, 0, 0.175, 1);
+  animation: appearLeft 0.9s ease;
   border-radius: 0rem 2rem 2rem 0rem;
 }
 

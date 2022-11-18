@@ -7,6 +7,33 @@ import { onValue, ref, set } from "firebase/database";
 import styles from "./styles.module.css";
 import Calendar from "../../components/Calendar";
 
+const slots = [
+  "12:00 A.M",
+  "01:00 A.M",
+  "02:00 A.M",
+  "03:00 A.M",
+  "04:00 A.M",
+  "05:00 A.M",
+  "06:00 A.M",
+  "07:00 A.M",
+  "08:00 A.M",
+  "09:00 A.M",
+  "10:00 A.M",
+  "11:00 A.M",
+  "12:00 P.M",
+  "01:00 P.M",
+  "02:00 P.M",
+  "03:00 P.M",
+  "04:00 P.M",
+  "05:00 P.M",
+  "06:00 P.M",
+  "07:00 P.M",
+  "08:00 P.M",
+  "09:00 P.M",
+  "10:00 P.M",
+  "11:00 P.M",
+];
+
 export default function Home() {
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -82,19 +109,23 @@ export default function Home() {
               }}
             >
               <h2>Select time</h2>
-              <div>
-                <select
-                  name=""
-                  id=""
-                  onChange={(e) => {
-                    setTime(e.target.value);
-                    setSchedulerInfoOpen(true);
-                  }}
-                >
-                  <option value="10am">10A.M</option>
-                  <option value="12pm">12P.M</option>
-                  <option value="14pm">14P.M</option>
-                </select>
+              <div className={styles.timeslots}>
+                {slots.map((slot) => {
+                  return (
+                    <button
+                      onClick={() => {
+                        setSchedulerInfoOpen(true);
+                        setTime(slot);
+                      }}
+                      style={{
+                        backgroundColor: time === slot ? "blue" : "transparent",
+                      }}
+                      className={styles.timeslot}
+                    >
+                      {slot}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
